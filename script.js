@@ -1,25 +1,15 @@
-// Add Background Color to the Radio Card when the Radio Button is checked
-document
-  .querySelectorAll('.radio-card input[type="radio"]')
-  .forEach((radio) => {
-    radio.addEventListener("change", function () {
-      // Remove 'selected' class from all radio cards
-      document
-        .querySelectorAll(".radio-card")
-        .forEach((card) => card.classList.remove("selected"));
+// Add background color to the radio selected
+const radioContainer = document.querySelector(".radio-container");
+const radioCards = document.querySelectorAll(".radio-card");
 
-      // Add 'selected' class to the parent of the clicked radio button
-      this.parentElement.classList.add("selected");
-    });
-  });
+radioContainer.addEventListener("click", function (event) {
+  const clickedElement = event.target;
 
-function showToaster() {
-  const toaster = document.querySelector(".toaster");
-  toaster.style.display = "block";
-  setTimeout(() => {
-    toaster.style.display = "none";
-  }, 3000);
-}
+  radioCards.forEach((card) => card.classList.remove("selected"));
+  clickedElement.parentElement.classList.add("selected");
+});
+
+const toaster = document.querySelector(".success-toast");
 
 // Email validation regex
 const validateEmail = (email) => {
@@ -41,9 +31,9 @@ const hideErrorSpan = (errorSpan) => {
 
 // Validate individual fields
 const validateField = (input) => {
+  let isValid = true;
   if (input.type === "radio") {
-    validateRadioGroup(input.name);
-    return;
+    return validateRadioGroup();
   }
 
   // Get the error span for the input
@@ -53,30 +43,46 @@ const validateField = (input) => {
     errorSpan.textContent =
       "To submit this form, please consent to being contacted";
     addStylesToErrorSpan(errorSpan);
+    isValid = false;
   } else if (input.type === "email" && !validateEmail(input.value)) {
+    input.style.borderColor = "red";
     errorSpan.textContent = "Please enter a valid email address";
     addStylesToErrorSpan(errorSpan);
+    isValid = false;
   } else if (!input.value.trim()) {
     errorSpan.textContent = "This field is required";
-    console.log(input);
     input.style.borderColor = "red";
     addStylesToErrorSpan(errorSpan);
+    isValid = false;
   } else {
+    input.style.borderColor = "hsl(169, 82%, 27%)";
     hideErrorSpan(errorSpan);
   }
+
+  return isValid;
 };
 
 // Validate radio button groups
-const validateRadioGroup = (name) => {
-  const radios = document.querySelectorAll(`input[name="${name}"]`);
-  const errorSpan = document.getElementById(`${name}Error`);
+const validateRadioGroup = () => {
+  const radios = document.querySelectorAll("input[type=radio]");
+  const errorSpan = document.getElementById("queryTypeError");
 
-  if (![...radios].some((radio) => radio.checked)) {
-    errorSpan.textContent = "Please select a query type";
+  let isChecked = false;
+  for (let radio of radios) {
+    if (radio.checked) {
+      isChecked = true;
+      break;
+    }
+  }
+
+  if (!isChecked) {
     addStylesToErrorSpan(errorSpan);
+    errorSpan.textContent = "Please select a query type";
   } else {
     hideErrorSpan(errorSpan);
   }
+
+  return isChecked;
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -86,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputs = form.querySelectorAll("input, textarea");
 
   inputs.forEach((input) => {
+    // Add an error span after each input field, after focusing out
     input.addEventListener("blur", function () {
       validateField(input);
     });
@@ -93,16 +100,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Prevent form submission if there are invalid fields
   form.addEventListener("submit", function (event) {
-    inputs.forEach((input) => validateField(input));
+    let isValid = true;
 
-    // If there's an error message displayed, prevent submission
-    const errorMessages = form.querySelectorAll(".error-message");
-    for (let errorMessage of errorMessages) {
-      if (errorMessage.style.display === "inline") {
-        event.preventDefault();
-        showToaster();
-        break;
+    inputs.forEach((input) => {
+      if (!validateField(input)) {
+        console.log("Invalid field", input);
+        isValid = false;
       }
+    });
+
+    if (!validateRadioGroup()) {
+      formIsValid = false;
+    }
+
+    if (isValid) {
+      event.preventDefault();
+      toaster.style.display = "block";
+
+      setTimeout(() => {
+        form.reset();
+        radioCards.forEach((card) => card.classList.remove("selected"));
+        toaster.style.display = "none";
+      }, 3000);
+    } else {
+      event.preventDefault();
     }
   });
 });

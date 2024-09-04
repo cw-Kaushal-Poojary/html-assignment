@@ -101,7 +101,6 @@ h2 {
 
 .radio-card.selected {
   background-color: hsl(148, 38%, 91%);
-  color: black; /* Change text color for the selected state */
 }
 
 input[type="radio"] {
@@ -158,17 +157,7 @@ input[type="checkbox"] {
   accent-color: hsl(169, 82%, 27%);
 }
 
-/* .error-message-hidden {
-  display: none;
-} */
-
-.error-message-visible {
-  display: inline;
-  color: red;
-  font-size: 0.8rem;
-}
-
-.toaster {
+.success-toast {
   position: absolute;
   top: 16px;
   margin: 0 auto;
@@ -181,4 +170,10 @@ input[type="checkbox"] {
   gap: 8px;
   display: none;
   position: fixed;
+}
+
+.success-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
