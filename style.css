@@ -177,3 +177,75 @@ input[type="checkbox"] {
   align-items: center;
   gap: 10px;
 }
+
+@media (min-width: 650px) and (max-width: 1024px) {
+  .contact-wrap {
+    margin: 0;
+  }
+  .contact-container {
+    width: 70%;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 650px) {
+  .contact-wrap {
+    margin: 0;
+  }
+  .contact-container {
+    width: 90%;
+  }
+
+  .name-container { 
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .name-wrap,
+  .email-wrap,
+  .message-wrap {
+    width: 100%;
+  }
+
+  .radio-wrap {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .radio-card {
+    padding: 10px;
+  }
+
+  .input-div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 376px) {
+  .contact-container {
+    width: 90%;
+  }
+
+  .name-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .name-wrap,
+  .email-wrap,
+  .message-wrap {
+    width: 100%;
+  }
+
+  .radio-wrap {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .radio-card {
+    padding: 10px;
+  }
+
+  .input-div {
+    width: 100%;
+  }
+}
