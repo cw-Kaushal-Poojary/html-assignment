@@ -78,7 +78,6 @@ h2 {
 }
 
 .radio-card {
-  /* margin-right: 10px; */
   display: flex;
   align-items: center;
   gap: 5px;
@@ -165,9 +164,6 @@ input[type="checkbox"] {
   background-color: hsl(187, 24%, 22%);
   border-radius: 8px;
   padding: 16px;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
   display: none;
   position: fixed;
 }
@@ -187,7 +183,7 @@ input[type="checkbox"] {
   }
 }
 
-@media (min-width: 376px) and (max-width: 650px) {
+@media (max-width: 650px) {
   .contact-wrap {
     margin: 0;
   }
@@ -218,34 +214,14 @@ input[type="checkbox"] {
   .input-div {
     width: 100%;
   }
+
+  .success-toast {
+    width: 70%;
+  }
 }
 
 @media (max-width: 376px) {
-  .contact-container {
-    width: 90%;
-  }
-
-  .name-container {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .name-wrap,
-  .email-wrap,
-  .message-wrap {
-    width: 100%;
-  }
-
-  .radio-wrap {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .radio-card {
-    padding: 10px;
-  }
-
-  .input-div {
-    width: 100%;
+  .contact-wrap {
+    margin: 20px 0;
   }
 }
