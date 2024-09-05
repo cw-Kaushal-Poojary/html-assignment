@@ -29,6 +29,11 @@ const hideErrorSpan = (errorSpan) => {
   errorSpan.style.display = "none";
 };
 
+const checkIfNameIsValid = (name) => {
+  const re = /^[A-Za-z]+$/;
+  return re.test(name);
+};
+
 // Validate individual fields
 const validateField = (input) => {
   let isValid = true;
@@ -51,6 +56,14 @@ const validateField = (input) => {
     isValid = false;
   } else if (!input.value.trim()) {
     errorSpan.textContent = "This field is required";
+    input.style.borderColor = "red";
+    addStylesToErrorSpan(errorSpan);
+    isValid = false;
+  } else if (
+    (input.id === "firstName" || input.id === "lastName") &&
+    !checkIfNameIsValid(input.value)
+  ) {
+    errorSpan.textContent = "Name should only contain alphabets";
     input.style.borderColor = "red";
     addStylesToErrorSpan(errorSpan);
     isValid = false;
